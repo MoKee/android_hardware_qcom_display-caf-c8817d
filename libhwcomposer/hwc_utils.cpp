@@ -2200,6 +2200,9 @@ hwc_rect_t sanitizeROI(struct hwc_rect roi, hwc_rect boundary)
            t_roi.right = t_roi.left + MIN_WIDTH;
    }
 
+   if(LEFT_ALIGN)
+       t_roi.left = t_roi.left - (t_roi.left % LEFT_ALIGN);
+
    /* Align left and width to meet panel restrictions */
    if(WIDTH_ALIGN) {
        int width = t_roi.right - t_roi.left;
@@ -2209,13 +2212,16 @@ hwc_rect_t sanitizeROI(struct hwc_rect roi, hwc_rect boundary)
        if(t_roi.right > boundary.right) {
            t_roi.right = boundary.right;
            t_roi.left = t_roi.right - width;
+
+           if(LEFT_ALIGN)
+             t_roi.left = t_roi.left - (t_roi.left % LEFT_ALIGN);
        }
    }
 
-   if(LEFT_ALIGN)
-       t_roi.left = t_roi.left - (t_roi.left % LEFT_ALIGN);
-
    /* Align top and height to meet panel restrictions */
+   if(TOP_ALIGN)
+       t_roi.top = t_roi.top - (t_roi.top % TOP_ALIGN);
+
    if(HEIGHT_ALIGN) {
        int height = t_roi.bottom - t_roi.top;
        height = HEIGHT_ALIGN *  ((height + (HEIGHT_ALIGN - 1)) / HEIGHT_ALIGN);
@@ -2224,11 +2230,11 @@ hwc_rect_t sanitizeROI(struct hwc_rect roi, hwc_rect boundary)
        if(t_roi.bottom > boundary.bottom) {
            t_roi.bottom = boundary.bottom;
            t_roi.top = t_roi.bottom - height;
+
+           if(TOP_ALIGN)
+             t_roi.top = t_roi.top - (t_roi.top % TOP_ALIGN);
        }
    }
-
-   if(TOP_ALIGN)
-       t_roi.top = t_roi.top - (t_roi.top % TOP_ALIGN);
 
    return t_roi;
 }
