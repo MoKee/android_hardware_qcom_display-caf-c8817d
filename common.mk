@@ -13,7 +13,7 @@ ifeq ($(TARGET_USES_POST_PROCESSING),true)
     common_includes  += $(TARGET_OUT_HEADERS)/pp/inc
 endif
 
-common_header_export_path := qcom/display
+common_header_export_path := qcom/display-caf-c8817d
 
 #Common libraries external to display HAL
 common_libs := liblog libutils libcutils libhardware
